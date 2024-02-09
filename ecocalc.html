@@ -1,53 +1,53 @@
 <!DOCTYPE html>
 <script src="javascript\ecocalculator.js"></script>
+<script src="javascript\chart.js"></script>
+<script src="javascript\palette.js"></script>
 <html lang="en">
 <head>
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<title>CO2 калькулятор</title>
-	<style>
-		input[type="number"] {
-			width: 100px;
-		}
-	</style>
+	<link rel="stylesheet" href="css/ecocalc.css">
 </head>
 
 <body>
 	<h1>Калькулятор эмиссий СО2 от использования энергии в быту</h1>
-	<table cellpadding="10px" width = "500px">
+	<table id = "inputs">
 		<colgroup>
-			<col width="300px">
-			<col width="200px">
+			<col class = "first_col">
+			<col class = "second_col">
 		</colgroup>
 		<tbody>
-			<tr id="Step1" style = "display: table-row">
+			<tr id="electroEnergy_row" style = "display: table-row">
 				<td>
-					<label for="consumptionWay"><span>Выберите форму потребления энергии <span style="color:red">*</span></span></label>
+					<label for="electroEnergy_input"><span>Количество потреблённой электроэнергии</br>(в кВт*ч)<span class = "red_asterisk">*</span></span></label>
 				</td>
 				<td>
-					<select tabindex="1" id="consumptionWay" required="True"  width="30">
-						<option value="" selected></option>
-						<option value="electroEnergy">электроэнергия</option>
-						<option value="thermalEnergy">теплоэнергия</option>
-						<option value="hotWater">горячая вода</option>
-					</select>
+					<input type="number" id="electroEnergy_input" tabindex="2" min="0" required="True" value = "0" width="30">
 				</td>
 			</tr>
-			<tr id="Step2" style = "display: none">
+			<tr id="hotWater_row" style = "display: table-row">
 				<td>
-					<label id = "energy_input_label" for="energy"></label>
+					<label id = "hotWater_label" for="hotWater_input"><span>Количество потреблённой горячей воды</br>(в кубометрах) <span class = "red_asterisk">*</span></span></label>
 				</td>
 				<td>
-					<input type="number" id="energy" tabindex="2" min="0" required="True" value = "0" width="30">
+					<input type="number" id="hotWater_input" tabindex="2" min="0" required="True" value = "0" width="30">
 				</td>
 			</tr>
-			<tr id="Step3" style = "display: none">
+			<tr id="thermalEnergy_row" style = "display: table-row">
 				<td>
-					<label  id = "fuel_select_label" for="fuelType"><span>Выберите вид топлива <span style="color:red">*</span></span></label>
+					<label id = "thermalEnergy_label" for="thermalEnergy_input"><span>Количество потреблённой теплоты</br>(в гигакалориях) class = "red_asterisk">*</span></span></label>
 				</td>
 				<td>
-					<select tabindex="3" id="fuelType" required="True"  width="30">
-						<option value="" selected></option>
+					<input type="number" id="thermalEnergy_input" tabindex="2" min="0" required="True" value = "0" width="30">
+				</td>
+			</tr>
+			<tr id="fuelType_row" style = "display: table-row">
+				<td>
+					<label  id = "fuelType_label" for="fuelType_select"><span>Вид топлива</span></label>
+				</td>
+				<td>
+					<select tabindex="3" id="fuelType_select" required="True"  width="30">
 						<option value="oil">нефть</option>
 						<option value="naturalGas">природный газ</option>
 						<option value="solarOil">дизельное топливо</option>
@@ -58,16 +58,55 @@
 					</select>
 				</td>
 			</tr>
+			<tr>
+				<td>
+					<button onclick="calculateCO2()" tabindex="4" id="calculateButton">Рассчитать</button>
+				</td>
+				<td></td>
+			</tr>
 		</tbody>
 	</table>
-	<button onclick="calculateCO2()" tabindex="4" id="calculateButton">Рассчитать</button>
-	<div id="Results" style="display:none">
-	<p>Результат: </p>
-	<p id="energyConsumed" style="display: none;"></p>
-	<p><span id="fuelConsumed"></span> кг <span id="fuelToRussian"></span></p>
-	<p><span id="co2Emission"></span> кг CO2</p>
-	</div>
-	<div id="Error" style="display:none"><span style="color:red">Расчёт не выполнен. Заполните все поля</span></div>
+	<canvas id = "Chart" style = "display:none" width = "200px" height ="200px"> </canvas>
+	<table id="Results" style="display:none">
+		<colgroup>
+			<col class = "first_col">
+			<col class = "second_col">
+		</colgroup>
+		<tbody>
+			<tr>
+				<td>Доля электроэнергии в общей сумме</td>
+				<td id = "electroEnergy_fromEnergyConsumed"></td>
+			</tr>
+			<tr>
+				<td>Эквивалент потреблённой горячей воды</td>
+				<td id = "hotWater_toEnergyConsumed"></td>
+			</tr>
+			<tr>
+				<td>Эквивалент потреблённой теплоты </td>
+				<td id = "thermalEnergy_toEnergyConsumed"></td>
+			</tr>
+			<tr>
+				<td>Общая сумма потреблённой энергии: </td>
+				<td id = "totalEnergyConsumed"></td>
+			</tr>
+			
+			<tr>
+				<td>Потреблено <span id="fuelToRussian"></span></td>
+				<td id = "fuelConsumed"></td>
+			</tr>
+			<tr>
+				<td>Общие выбросы углекислого газа составляют </td>
+				<td id = "co2Emission"></td>
+			</tr>
+		</tbody>
+	</table>
+	<table id = "Error" style="display:none" cellpadding="10px" width = "500px">
+		<tr>
+			<td width = "100%">
+				<span style="color:red" >Заполните хотя бы одно поле</span></p>
+			</td>
+		</tr>
+	</table>
 
 </body>
 </html>

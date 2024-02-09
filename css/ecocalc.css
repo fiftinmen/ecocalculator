@@ -1,0 +1,95 @@
+body {
+    font-family: Arial, sans-serif;
+    margin: 20;
+    padding: 20;
+  }
+  
+  h1 {
+    text-align: left;
+    margin-top: 20px;
+    margin-left: 20px;
+    width: 50%;
+    min-width: 500px;
+  }
+  
+  table {
+    width: 50%;
+    margin: 20px;
+    border-collapse: collapse;
+    min-width: 500px;
+  }
+
+  
+  td {
+    padding: 10px;
+  }
+  
+  input[type="number"],
+  select {
+    width: 100px;
+    padding: 5px;
+  }
+  
+  button {
+    padding: 10px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    cursor: pointer;
+  }
+  
+  button:hover {
+    background-color: #0056b3;
+  }
+  
+  .first_col {
+    width :60%;
+
+  }
+  .second_col {
+    width :40%;
+  }
+
+  #electroEnergy_row {
+    display: table-row;
+  }
+  
+  #hotWater_row {
+    display: table-row;
+  }
+  
+  #thermalEnergy_row {
+    display: table-row;
+  }
+  
+  #fuelType_row {
+    display: table-row;
+  }
+  
+  #Results {
+    display: none;
+  }
+  
+  #Error {
+    display: none;
+  }
+  
+  #electroEnergy_input,
+  #hotWater_input,
+  #thermalEnergy_input,
+  #fuelType_select {
+    width: 100px;
+  }
+  
+  
+  #calculateButton {
+    background-color: green;
+  }
+  
+  #error {
+    color: red;
+  }
+  
+  .red_asterisk{
+    color: red;
+  }
