@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<script src="javascript\ecocalculator.js"></script>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>CO2 калькулятор</title>
+	<style>
+		input[type="number"] {
+			width: 100px;
+		}
+	</style>
+</head>
+
+<body>
+	<h1>Калькулятор эмиссий СО2 от использования энергии в быту</h1>
+	<table cellpadding="10px" width = "500px">
+		<colgroup>
+			<col width="300px">
+			<col width="200px">
+		</colgroup>
+		<tbody>
+			<tr id="Step1" style = "display: table-row">
+				<td>
+					<label for="consumptionWay"><span>Выберите форму потребления энергии <span style="color:red">*</span></span></label>
+				</td>
+				<td>
+					<select tabindex="1" id="consumptionWay" required="True"  width="30">
+						<option value="" selected></option>
+						<option value="electroEnergy">электроэнергия</option>
+						<option value="thermalEnergy">теплоэнергия</option>
+						<option value="hotWater">горячая вода</option>
+					</select>
+				</td>
+			</tr>
+			<tr id="Step2" style = "display: none">
+				<td>
+					<label id = "energy_input_label" for="energy"></label>
+				</td>
+				<td>
+					<input type="number" id="energy" tabindex="2" min="0" required="True" value = "0" width="30">
+				</td>
+			</tr>
+			<tr id="Step3" style = "display: none">
+				<td>
+					<label  id = "fuel_select_label" for="fuelType"><span>Выберите вид топлива <span style="color:red">*</span></span></label>
+				</td>
+				<td>
+					<select tabindex="3" id="fuelType" required="True"  width="30">
+						<option value="" selected></option>
+						<option value="oil">нефть</option>
+						<option value="naturalGas">природный газ</option>
+						<option value="solarOil">дизельное топливо</option>
+						<option value="gasoline">мазут</option>
+						<option value="kerosene">керосин</option>
+						<option value="coal">уголь</option>
+						<option value="peatBriquettes">торф брикеты</option>
+					</select>
+				</td>
+			</tr>
+		</tbody>
+	</table>
+	<button onclick="calculateCO2()" tabindex="4" id="calculateButton">Рассчитать</button>
+	<div id="Results" style="display:none">
+	<p>Результат: </p>
+	<p id="energyConsumed" style="display: none;"></p>
+	<p><span id="fuelConsumed"></span> кг <span id="fuelToRussian"></span></p>
+	<p><span id="co2Emission"></span> кг CO2</p>
+	</div>
+	<div id="Error" style="display:none"><span style="color:red">Расчёт не выполнен. Заполните все поля</span></div>
+
+</body>
+</html>
