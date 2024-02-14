@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<svg viewBox="0 0 500 500" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:bx="https://boxy-svg.com">
+  <defs>
+    <linearGradient id="gradient-1" bx:pinned="true">
+      <stop offset="0" style="stop-color: rgb(255, 0, 0);"/>
+      <stop offset="0.615" style="stop-color: rgb(255, 145, 0);"/>
+      <stop offset="1" style="stop-color: rgba(255, 236, 0, 0.525);"/>
+    </linearGradient>
+    <linearGradient id="gradient-1-0" gradientUnits="userSpaceOnUse" x1="175.658" y1="71.214" x2="175.658" y2="403.882" xlink:href="#gradient-1"/>
+  </defs>
+  <path style="paint-order: stroke; stroke-width: 0px; stroke: rgb(255, 0, 0); fill: url('#gradient-1-0');" d="M 124.022 71.215 C 124.022 71.215 269.582 260.064 244.347 350.872 C 236.75 378.211 214.289 404.062 166.939 403.881 C 119.794 403.701 102.449 364.748 104.141 348.808 C 107.486 317.293 123.136 307.804 145.778 266.264 C 176.352 210.171 124.069 70.73 124.022 71.215 Z"/>
+  <ellipse style="stroke: rgb(0, 0, 0); fill: rgb(255, 255, 0); stroke-width: 0px;" cx="164.304" cy="359.706" rx="22.373" ry="34.916"/>
+</svg>

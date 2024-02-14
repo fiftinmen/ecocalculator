@@ -65,6 +65,7 @@ const coefficients={
 };
 
 function calculateCO2() {
+    
     document.getElementById('Error').style.display='none';
     let electroEnergyConsumed = document.getElementById('electroEnergy_input').value;
     let hotWaterConsumed = document.getElementById('hotWater_input').value;
@@ -74,30 +75,48 @@ function calculateCO2() {
     let energyConsumed = +electroEnergyConsumed + +hotWater_toEnergy + +thermalEnergy_toEnergy;
     if (energyConsumed>0)
     {
+        
         let fuelType=document.getElementById('fuelType_select').value;
         let fuelToEnergyConsumed=coefficients[fuelType+'ToEnergy'];
         let fuelConsumed = energyConsumed/fuelToEnergyConsumed;
         let fuelToCO2=coefficients[fuelType+'ToCO2'];
         let fuelToRussian=coefficients[fuelType+'ToRussian1'];
         let co2Emission = fuelConsumed*fuelToCO2; // Примерный коэффициент выбросов CO2 за 1 кВт*ч (можно заменить на реальный коэффициент);
-        let hotWater_toEnegy_fromTotal = (hotWater_toEnergy * 100 / energyConsumed).toFixed();
-        let thermalEnergy_toEnegy_fromTotal = (thermalEnergy_toEnergy * 100 / energyConsumed).toFixed();
-        let electroEnergy_fromEnergyConsumed = (electroEnergyConsumed * 100 / energyConsumed).toFixed();
-        document.getElementById ('electroEnergy_fromEnergyConsumed').innerText = electroEnergy_fromEnergyConsumed + "%";
-        document.getElementById('hotWater_toEnergyConsumed').innerHTML = hotWater_toEnergy.toFixed(2) +" кВт*ч </br>("+ hotWater_toEnegy_fromTotal +"% от общей суммы)";
-        document.getElementById('thermalEnergy_toEnergyConsumed').innerHTML = thermalEnergy_toEnergy.toFixed(2) +" кВт*ч </br>("+ thermalEnergy_toEnegy_fromTotal +"% от общей суммы)";
+        
+        document.getElementById('hotWater_toEnergyConsumed').innerHTML = hotWater_toEnergy.toFixed(2) +" кВт*ч";
+        document.getElementById('thermalEnergy_toEnergyConsumed').innerHTML = thermalEnergy_toEnergy.toFixed(2) +" кВт*ч";
         document.getElementById('totalEnergyConsumed').innerText = energyConsumed.toFixed(2) + " кВт*ч";
         document.getElementById('fuelToRussian').innerText = fuelToRussian;
         document.getElementById('fuelConsumed').innerText = fuelConsumed.toFixed(2)+" кг";
         document.getElementById('co2Emission').innerText = co2Emission.toFixed(2)+" кг";
-        document.getElementById('Results').style.display='block';
-        let chart = document.getElementById ('Chart');
-        let data = [+electroEnergyConsumed, hotWater_toEnergy, thermalEnergy_toEnergy];
-        console.log(data);
+        document.getElementById('Results').style.display='inline-block';
+        
+        
+        //let canvasHeight = document.getElementById('canvas').Height;
+        let chart = document.getElementById ('chart');
+        let canvasWidth = chart.width-100;
+        let data = [+electroEnergyConsumed, hotWater_toEnergy, thermalEnergy_toEnergy];        
         let labels = ['электроэнергия', 'горячая вода','теплота'];
-        let colors = palette('tol-rainbow', 3);
-        colors = ['#'+colors[0],'#'+colors[1],'#'+colors[2]]
-        drawchart (chart, data, labels, colors, 700 , 400);
+        const colors = ['#781c81', '#83ba6d', '#d92120'];
+        drawchart (chart, data, labels, colors, canvasWidth , canvasWidth);
+
+        if (thermalEnergy_toEnergy>0)
+        {
+        let thermalEnergy_fraction = (100*thermalEnergy_toEnergy / energyConsumed).toLocaleString('en-EN',{minimumFractionDigits:0, maximumFractionDigits:2});;
+        document.getElementById('thermalEnergy_fraction').innerText = `${thermalEnergy_fraction}% - электричество`;
+        }
+        if (hotWater_toEnergy>0)
+        {
+            let hotWater_fraction = (100*hotWater_toEnergy / energyConsumed).toLocaleString('en-EN',{minimumFractionDigits:0, maximumFractionDigits:2});;
+            document.getElementById('hotwater_fraction').innerText = `${hotWater_fraction}% - горячая вода`;
+        }
+        
+        if (+electroEnergyConsumed>0)
+        {
+            let electroEnergy_fraction = (100* +electroEnergyConsumed / energyConsumed).toLocaleString('en-EN',{minimumFractionDigits:0, maximumFractionDigits:2});;
+            document.getElementById('electroEnergy_fraction').innerText = `${electroEnergy_fraction}% - теплоснабжение`;
+        }
+        document.getElementById('chart_stats').style.visibility = 'visible';
 
     } else {
         document.getElementById('Results').style.display='none';

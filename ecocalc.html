@@ -66,17 +66,43 @@
 			</tr>
 		</tbody>
 	</table>
-	<canvas id = "Chart" style = "display:none" width = "500px" height ="300px"> </canvas>
+	<div class = "container" id="chart_stats">
+		<div class = "chart_col">
+			<canvas id = "chart" style = "display:none"> </canvas>
+		</div>
+		<div class = "stats_col">
+			<div class = "empty">
+
+			</div>
+			<div class = "stats_row">
+				<svg class = "symbol" xmlns="http://www.w3.org/2000/svg">
+					<rect x="0px" y="0px" width="30px" height="30px" rx="5px" ry="5px" fill="#781c81" />
+				</svg>
+				<span id = "electroEnergy_fraction"></span>
+			</div>
+			<div class = "stats_row">
+				<svg class = "symbol" id = "hotwater_symbol" xmlns="http://www.w3.org/2000/svg">
+					<rect x="0px" y="0px" width="30px" height="30px" rx="5px" ry="5px" fill="#83ba6d" />
+				</svg>
+				<span id = "hotwater_fraction"></span>
+			</div>
+			<div class = "stats_row">
+				<svg class ="symbol" xmlns="http://www.w3.org/2000/svg">
+					<rect x="0px" y="0px" width="30px" height="30px" rx="5px" ry="5px" fill="#d92120" />
+				</svg>
+				<span id = "thermalEnergy_fraction"></span>
+			</div>	
+			<div class = "empty">
+
+			</div>
+		</div>
+	</div>
 	<table id="Results" style="display:none">
 		<colgroup>
 			<col class = "first_col">
 			<col class = "second_col">
 		</colgroup>
 		<tbody>
-			<tr>
-				<td>Доля электроэнергии в общей сумме</td>
-				<td id = "electroEnergy_fromEnergyConsumed"></td>
-			</tr>
 			<tr>
 				<td>Эквивалент потреблённой горячей воды</td>
 				<td id = "hotWater_toEnergyConsumed"></td>
@@ -100,7 +126,7 @@
 			</tr>
 		</tbody>
 	</table>
-	<table id = "Error" style="display:none" cellpadding="10px" width = "500px">
+	<table id = "Error" style="display:none">
 		<tr>
 			<td width = "100%">
 				<span style="color:red" >Заполните хотя бы одно поле</span></p>

@@ -19,6 +19,11 @@ body {
     min-width: 500px;
   }
 
+  canvas {
+    margin : 0px;
+    padding : 0px;
+  }
+
   
   td {
     padding: 10px;
@@ -92,4 +97,45 @@ body {
   
   .red_asterisk{
     color: red;
+  }
+
+  .container{
+    width : 600px;
+    height : 300px;
+    position : relative;
+    display :grid;
+    padding:0px 5px 5px 5px;
+    grid-template-columns: 200px 400px;
+    visibility: hidden;
+  }
+  #chart_stats{
+    width : 600px;
+    height : 300px;
+    position : relative;
+    display :grid;
+    padding:5px;
+    grid-template-columns: 200px 400px;
+    visibility: hidden;
+  }
+  .chart_col{
+    padding:0px;
+    height:100%;
+    vertical-align:top;
+  }
+  .chart_col canvas{
+    padding:0px;
+  }
+  .stats_col{
+    display: grid;
+    grid-template-rows : 3fr 40px 40px 40px 7fr;
+  }
+  .stats_row{
+    display:table-row;
+    text-align: left;
+  }
+  .stats_row svg{
+    vertical-align: middle;
+    width:30px;
+    height:30px;
+    padding:5px;
   }

@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<svg viewBox="7.3359 22.1623 11.2111 21.562" width="11.2111" height="21.562" xmlns="http://www.w3.org/2000/svg" xmlns:bx="https://boxy-svg.com">
+  <defs>
+    <linearGradient id="gradient-3" bx:pinned="true">
+      <stop offset="0.132" style="stop-color: rgb(137, 137, 137);"/>
+      <stop offset="0.3" style="stop-color: rgb(136, 136, 136);"/>
+      <stop offset="0.879" style="stop-color: rgba(113, 233, 243, 0.28);"/>
+      <stop offset="1" style="stop-color: rgba(255, 255, 255, 0);"/>
+    </linearGradient>
+    <linearGradient id="gradient-0" bx:pinned="true">
+      <stop offset="0" style="stop-color: rgb(252, 255, 0);"/>
+      <stop offset="0.501" style="stop-color: rgb(255, 253, 216);"/>
+      <stop offset="1" style="stop-color: rgb(251, 255, 0);"/>
+    </linearGradient>
+    <linearGradient id="gradient-1" x1="12.657" x2="12.657" y1="22.441" y2="43.01" gradientUnits="userSpaceOnUse" gradientTransform="matrix(1, 0, 0, 1, 0.110587, 0.414702)">
+      <stop offset="0" style="stop-color: rgb(252, 255, 0);"/>
+      <stop offset="0.501" style="stop-color: rgb(255, 253, 216);"/>
+      <stop offset="1" style="stop-color: rgb(251, 255, 0);"/>
+    </linearGradient>
+  </defs>
+  <path style="stroke: rgb(0, 0, 0); stroke-width: 0px; fill: url('#gradient-1'); transform-box: fill-box; transform-origin: 46.0433% 45.2956%;" d="M 12.546 22.856 L 8.925 33.777 L 12.851 34.744 L 10.418 43.425 L 16.611 31.98 L 12.408 31.758 L 12.546 22.856 Z"/>
+</svg>
