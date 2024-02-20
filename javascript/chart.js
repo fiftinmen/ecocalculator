@@ -1,10 +1,51 @@
 
+
+function line(x1,y1,x2,y2,color,width){
+    let line = document.createElementNS("http://www.w3.org/2000/svg", "line");
+    line.setAttribute("x1",x1);
+    line.setAttribute("y1",y1);
+    line.setAttribute("x2",x2);
+    line.setAttribute("y2",y2);
+    line.setAttribute("stroke",color);
+    line.setAttribute("stroke-width",width);
+    return line;
+}
+function circle(cx, cy, r, fillColor, strokeColor,strokeWidth){
+    let circle = document.createElementNS("http://www.w3.org/2000/svg", "circle");
+    circle.setAttribute("cx", cx);
+    circle.setAttribute("cy", cy);
+    circle.setAttribute("r", r);
+    circle.setAttribute("fill", fillColor);
+    circle.setAttribute("stroke", strokeColor);
+    circle.setAttribute("stroke-width", strokeWidth);
+    return circle;
+}
+
+
+
+function homunculus(personNumber){
+    let svg = document.createElementNS("http://www.w3.org/2000/svg", "svg");
+    svg.setAttribute("viewBox", "0 0 24 24");
+    svg.setAttribute("width", "25");
+    svg.setAttribute("height", "25");
+    svg.setAttribute("person-number", personNumber);
+    svg.appendChild(circle(12, 6, 4, "#7b7", "#5a5", 1));
+    svg.appendChild(line(12, 10, 12, 16, "#5a5", 1));
+    svg.appendChild(line(8, 12, 16, 12, "#5a5", 1));
+    svg.appendChild(line(12, 16, 8, 20, "#5a5", 1));
+    svg.appendChild(line(12, 16, 16, 20, "#5a5", 1));
+    return svg;
+}
+
+
+
+
 function sum (acc,item,index,arr){
     return acc+item;
 }
 
 
-function drawchart(canvas, data, labels, colors , width, height)
+function drawchart(canvas, data, colors , width, height)
 {
     const ratio = window.devicePixelRatio;
     canvas.width = width * ratio;
@@ -19,9 +60,9 @@ function drawchart(canvas, data, labels, colors , width, height)
     //ctx.fillRect(0, 0, canvas.width, canvas.height);
     let total = data.reduce (sum);
     let explodeOffset = 10;
-    let radius = Math.min(width, height) / 2 - explodeOffset*4;
-    let centerX = radius + explodeOffset*3;
-    let centerY = radius +explodeOffset*3;
+    let radius = Math.min(width, height) / 2 - explodeOffset*2;
+    let centerX = radius + explodeOffset*2;
+    let centerY = radius +explodeOffset*2;
     let startAngle = -Math.PI / 2;
     ctx.font = "20px serif"; 
     for (let i = 0; i < data.length; i++) {
@@ -34,11 +75,10 @@ function drawchart(canvas, data, labels, colors , width, height)
             // Explode the slice
             let xExplode = Math.cos(startAngle + sliceAngle / 2) * explodeOffset;
             let yExplode = Math.sin(startAngle + sliceAngle / 2) * explodeOffset;
-            console.log (xExplode, yExplode);
 
             ctx.beginPath();
             ctx.arc(centerX + xExplode, centerY + yExplode, radius, startAngle, endAngle);
-            ctx.lineTo(centerX+xExplode*0.5, centerY+yExplode*0.5);
+            ctx.lineTo(centerX+xExplode, centerY+yExplode);
             ctx.fillStyle = colors[i];
             ctx.fill();
 

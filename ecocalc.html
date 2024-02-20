@@ -1,7 +1,8 @@
 <!DOCTYPE html>
 <script src="javascript\ecocalculator.js"></script>
 <script src="javascript\chart.js"></script>
-<script src="javascript\palette.js"></script>
+<script src="javascript\FileSaver.js"></script>
+<script src="javascript\xlsx.full.min.js"></script>
 <html lang="en">
 <head>
 	<meta charset="UTF-8">
@@ -11,128 +12,218 @@
 </head>
 
 <body>
-	<h1>Калькулятор эмиссий СО2 от использования энергии в быту</h1>
-	<table id = "inputs">
-		<colgroup>
-			<col class = "first_col">
-			<col class = "second_col">
-		</colgroup>
-		<tbody>
-			<tr id="electroEnergy_row" style = "display: table-row">
-				<td>
-					<label for="electroEnergy_input"><span>Количество потреблённой электроэнергии</br>(в кВт*ч)<span class = "red_asterisk">*</span></span></label>
-				</td>
-				<td>
-					<input type="number" id="electroEnergy_input" tabindex="2" min="0" required="True" value = "0" width="30">
-				</td>
-			</tr>
-			<tr id="hotWater_row" style = "display: table-row">
-				<td>
-					<label id = "hotWater_label" for="hotWater_input"><span>Количество потреблённой горячей воды</br>(в кубометрах) <span class = "red_asterisk">*</span></span></label>
-				</td>
-				<td>
-					<input type="number" id="hotWater_input" tabindex="2" min="0" required="True" value = "0" width="30">
-				</td>
-			</tr>
-			<tr id="thermalEnergy_row" style = "display: table-row">
-				<td>
-					<label id = "thermalEnergy_label" for="thermalEnergy_input"><span>Количество потреблённой теплоты</br>(в гигакалориях) <span class = "red_asterisk">*</span></span></label>
-				</td>
-				<td>
-					<input type="number" id="thermalEnergy_input" tabindex="2" min="0" required="True" value = "0" width="30">
-				</td>
-			</tr>
-			<tr id="fuelType_row" style = "display: table-row">
-				<td>
-					<label  id = "fuelType_label" for="fuelType_select"><span>Вид топлива</span></label>
-				</td>
-				<td>
-					<select tabindex="3" id="fuelType_select" required="True"  width="30">
-						<option value="oil">нефть</option>
-						<option value="naturalGas">природный газ</option>
-						<option value="solarOil">дизельное топливо</option>
-						<option value="gasoline">мазут</option>
-						<option value="kerosene">керосин</option>
-						<option value="coal">уголь</option>
-						<option value="peatBriquettes">торф брикеты</option>
-					</select>
-				</td>
-			</tr>
-			<tr>
-				<td>
-					<button onclick="calculateCO2()" tabindex="4" id="calculateButton">Рассчитать</button>
-				</td>
-				<td></td>
-			</tr>
-		</tbody>
-	</table>
-	<div class = "container" id="chart_stats">
-		<div class = "chart_col">
-			<canvas id = "chart" style = "display:none"> </canvas>
-		</div>
-		<div class = "stats_col">
-			<div class = "empty">
+	<main>
+		<article>
+			<h1>Калькулятор экологического следа от использования энергии в квартире</h1>
+			<table id = "inputs">
+				<colgroup>
+					<col class = "first-col">
+					<col class = "second-col">
+				</colgroup>
+				<tbody>
+					<tr id="electroEnergy_row" style = "display:table-row">
+						<td>
+							<label for="electroEnergy_input"><span>Электроэнергия (в кВт*ч)</span></label>
+						</td>
+						<td>
+							<input type="number" id="electroEnergy_input" tabindex="2" min="0" required="True" value = "0" width="30">
+						</td>
+					</tr>
+					<tr id="hotWater_row" style = "display:table-row">
+						<td>
+							<label id = "hotWater_label" for="hotWater_input"><span>Горячая вода (в кубометрах)</span></label>
+						</td>
+						<td>
+							<input type="number" id="hotWater_input" tabindex="2" min="0" required="True" value = "0" width="30">
+						</td>
+					</tr>
+					<tr id="thermalEnergy_row" style = "display:table-row">
+						<td>
+							<label id = "thermalEnergy_label" for="thermalEnergy_input"><span>Теплоснабжение (в гигакалориях)</span></label>
+						</td>
+						<td>
+							<input type="number" id="thermalEnergy_input" tabindex="2" min="0" required="True" value = "0" width="30">
+						</td>
+					</tr>
+					<tr id="gas_row" style = "display:table-row">
+						<td>
+							<label id = "gas_label" for="gas_input"><span>Бытоой газ (в кубометрах)</span></label>
+						</td>
+						<td>
+							<input type="number" id="gas_input" tabindex="2" min="0" required="True" value = "0" width="30">
+						</td>
+					</tr>
+					<tr id="fuelType_row" style = "display:table-row">
+						<td>
+							<label  id = "fuelType_label" for="fuelType_select"><span>Вид топлива</span></label>
+						</td>
+						<td>
+							<select tabindex="3" id="fuelType_select" required="True"  width="30">
+								<option value="oil">нефть</option>
+								<option value="naturalGas">природный газ</option>
+								<option value="solarOil">дизельное топливо</option>
+								<option value="gasoline">мазут</option>
+								<option value="kerosene">керосин</option>
+								<option value="coal">уголь</option>
+								<option value="peatBriquettes">торф брикеты</option>
+							</select>
+						</td>
+					</tr>
+					<tr>
+						<td>
+							<div id = "person-bar-container">
+								<div id = "person-bar-label">
+									Жильцы
+								</div>
+								<div>
+									<button onclick="minusPerson()" class="person-bar-button" tabindex="4" id="minus-person-button">-</button>
+								</div>
+								<div id = "person-bar">
 
-			</div>
-			<div class = "stats_row">
-				<svg class = "symbol" xmlns="http://www.w3.org/2000/svg">
-					<rect x="0px" y="0px" width="30px" height="30px" rx="5px" ry="5px" fill="#781c81" />
-				</svg>
-				<span id = "electroEnergy_fraction"></span>
-			</div>
-			<div class = "stats_row">
-				<svg class = "symbol" id = "hotwater_symbol" xmlns="http://www.w3.org/2000/svg">
-					<rect x="0px" y="0px" width="30px" height="30px" rx="5px" ry="5px" fill="#83ba6d" />
-				</svg>
-				<span id = "hotwater_fraction"></span>
-			</div>
-			<div class = "stats_row">
-				<svg class ="symbol" xmlns="http://www.w3.org/2000/svg">
-					<rect x="0px" y="0px" width="30px" height="30px" rx="5px" ry="5px" fill="#d92120" />
-				</svg>
-				<span id = "thermalEnergy_fraction"></span>
-			</div>	
-			<div class = "empty">
+								</div>
+								<div>
+									<button onclick="plusPerson()" class="person-bar-button" tabindex="3" id="plus-person-button" alt = "Увеличить число совместно проживающих дюдей">+</button>
+								</div>
+							</div>
+						</td>
+						<td id="person-number-cell">
+							<div id = "person-number">1</div>
+						</td>
+					</tr>
+					<tr>
+						<td colspan="2">
+							<button onclick="calculate()" tabindex="5" id="calculate-button">Рассчитать</button>
+						</td>
+					</tr>
+				</tbody>
+			</table>
+			<div id="Results">
 
+				<div class = "container" id="chart_stats">
+					<div class = "chart_col">
+						<canvas id = "chart" style = "display:none"> </canvas>
+					</div>
+					<div class = "stats_col">
+						<div class = "empty">
+						</div>
+						<div class = "stats_row" id="electroEnergyChartRow">
+							<svg class = "symbol" id="electroEnergySymbol" xmlns="http//www.w3.org/2000/svg">
+								<rect x="0px" y="0px" width="30px" height="30px" rx="5px" ry="5px" fill="#781c81" />
+							</svg>
+							<span id = "electroEnergy_fraction"></span>
+						</div>
+						<div class = "stats_row" id="hotWaterChartRow">
+							<svg class = "symbol" id = "hotWaterSymbol" xmlns="http//www.w3.org/2000/svg">
+								<rect x="0px" y="0px" width="30px" height="30px" rx="5px" ry="5px" fill="#83ba6d" />
+							</svg>
+							<span id = "hotwater_fraction"></span>
+						</div>
+						<div class = "stats_row" id="thermalEnergyChartRow">
+							<svg class ="symbol" id = "thermalEnergySymbol" xmlns="http//www.w3.org/2000/svg">
+								<rect x="0px" y="0px" width="30px" height="30px" rx="5px" ry="5px" fill="#d92120" />
+							</svg>
+							<span id = "thermalEnergy_fraction"></span>
+						</div>	
+						<div class = "stats_row" id="gasEnergyChartRow">
+							<svg class ="symbol" id = "gasEnergySymbol" xmlns="http//www.w3.org/2000/svg">
+								<rect x="0px" y="0px" width="30px" height="30px" rx="5px" ry="5px" fill="#8a8a66" />
+							</svg>
+							<span id = "gasEnergy_fraction"></span>
+						</div>
+						<div class = "empty">
+						</div>
+					</div>
+				</div>
+				
+				<table id="stats">
+					<colgroup>
+						<col class = "stats-first-col">
+						<col class = "stats-second-col">
+					</colgroup>
+					<tbody>
+						<tr>
+							<td>Энергозатраты на производство горячей воды</td>
+							<td class = "stats" id = "hotWater_toEnergyConsumed"></td>
+						</tr>
+						<tr class = "per-person-row">
+							<td class = "per-person-label">
+								на человека
+							</td>
+							<td class = "consumption-per-person" id="per-person-hot-water-energy">
+							</td>
+						</tr>
+						<tr>
+							<td>Энергозатраты на производство теплоты </td>
+							<td class = "stats" id = "thermalEnergy_toEnergyConsumed"></td>
+						</tr>
+						<tr class = "per-person-row">
+							<td class = "per-person-label">
+								на человека
+							</td>
+							<td class = "consumption-per-person" id="per-person-thermal-energy">
+							</td>
+						</tr>
+						<tr>
+							<td>Энергия, потреблённая при использовании бытового газа </td>
+							<td class = "stats" id = "gas_toEnergyConsumed"></td>
+						</tr>
+						<tr class = "per-person-row">
+							<td class = "per-person-label">
+								на человека
+							</td>
+							<td class = "consumption-per-person" id="per-person-gas-energy">
+							</td>
+						</tr>
+						<tr>
+							<td>Общая сумма потреблённой энергии </td>
+							<td class = "stats" id = "totalEnergyConsumed"></td>
+						</tr>
+						<tr class = "per-person-row"> 
+							<td class = "per-person-label">
+								на человека
+							</td>
+							<td class = "consumption-per-person" id="per-person-total-energy">
+							</td>
+						</tr>
+						<tr>
+							<td>Потреблено <span id="fuelToRussian"></span></td>
+							<td class = "stats" id = "fuelConsumed"></td>
+						</tr>
+						<tr class = "per-person-row">
+							<td class = "per-person-label">
+								на человека
+							</td>
+							<td class = "consumption-per-person" id="per-person-fuel">
+							</td>
+						</tr>
+						<tr>
+							<td>Общие выбросы углекислого газа</td>
+							<td class = "stats" id = "co2Emission"></td>
+						</tr>
+						<tr class = "per-person-row">
+							<td class = "per-person-label">
+								на человека
+							</td>
+							<td class = "consumption-per-person" id="per-person-co2">
+							</td>
+						</tr>
+						<tr>
+							<td colspan="2">
+								<button onclick="exportToExcel()">Экспортировать в Excel</button>
+							</td>
+						</tr>
+					</tbody>
+				</table>
 			</div>
-		</div>
-	</div>
-	<table id="Results" style="display:none">
-		<colgroup>
-			<col class = "first_col">
-			<col class = "second_col">
-		</colgroup>
-		<tbody>
-			<tr>
-				<td>Эквивалент потреблённой горячей воды</td>
-				<td id = "hotWater_toEnergyConsumed"></td>
-			</tr>
-			<tr>
-				<td>Эквивалент потреблённой теплоты </td>
-				<td id = "thermalEnergy_toEnergyConsumed"></td>
-			</tr>
-			<tr>
-				<td>Общая сумма потреблённой энергии: </td>
-				<td id = "totalEnergyConsumed"></td>
-			</tr>
-			
-			<tr>
-				<td>Потреблено <span id="fuelToRussian"></span></td>
-				<td id = "fuelConsumed"></td>
-			</tr>
-			<tr>
-				<td>Общие выбросы углекислого газа составляют </td>
-				<td id = "co2Emission"></td>
-			</tr>
-		</tbody>
-	</table>
-	<table id = "Error" style="display:none">
-		<tr>
-			<td width = "100%">
-				<span style="color:red" >Заполните хотя бы одно поле</span></p>
-			</td>
-		</tr>
-	</table>
-
+			<table id = "error" style="display:none">
+				<tr>
+					<td width = "100%">
+						<span style="color:red" >Заполните хотя бы одно поле</span></p>
+					</td>
+				</tr>
+			</table>
+		</article>
+	</main>
+	<script src="javascript\main.js"></script>
 </body>
 </html>
