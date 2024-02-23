@@ -1,24 +1,52 @@
+  body {
+    background:#386E4C;
+  }
+
   article{
+    
     font-size:14px;
     font-family:'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
-    width: 80%;
+    width: 520px;
+    margin: 20px auto 10px auto;
+    color: #444;
+    background-color: #f0f0f0;
+    border-radius: 20px;  
+    box-shadow: 0 0 50px rgba(0,0,0,0.8);
+  }
+
+  .compressed-image{
+    width: 430px;
     margin: 0 auto 0 auto;
+    padding: 0 0 0 0;
+  }
+
+  .compressed-image:hover{
+    cursor: pointer;
+  }
+
+  figcaption{
+    font-size: x-small;
+  }
+
+  #image{
+    width:100%;
+    display: block;
   }
   
-  h1 {
+  .calculator-header {
     text-align: left;
-    margin-top: 20px;
+    padding: 20px 0px 5px 10px;
+    margin-top: 30px;
     margin-left: 20px;
-    margin-bottom: 0px;
-    width: 50%;
+    margin-bottom: 5px;
+    width: 500px;
     min-width: 500px;
   }
   
   table {
-    width: 500px;
-    margin: 0px 10px 0px 10px;
+    width: 450px;
+    margin: 0px auto 0px auto;
     border-collapse: collapse;
-    min-width: 400px;
   }
 
   canvas {
@@ -57,12 +85,13 @@
   
   button {
     padding: 10px;
-    background-color: #007bff;
     color: white;
-    border: 2;
+    border: thin;
     border-color: #fff;
     cursor: pointer;
     border-radius:5px;
+    box-shadow: 0 0 10px rgba(0,0,0,0.2);
+    transition-duration: 0.5s;
   }
   
   button:hover {
@@ -77,10 +106,19 @@
     width :150px;
   }
   .per-person-row{
-    height: 20px;
     background-color:#ddd;
-    border-radius: 20px;
   }
+
+  .stats-table td{
+    padding-top:5px;
+    padding-bottom: 5px;
+  }
+
+  .per-person-row td{
+    padding-top:3px;
+    padding-bottom:3px;
+  }
+
   .per-person-label{
     text-indent: 30px;
     text-align: right;
@@ -118,9 +156,10 @@
     display: table-row;
   }
   
-  #Results {
+  #results {
     display: none;
   }
+
   
   #error {
     display: none;
@@ -132,15 +171,15 @@
     margin-right: 0px;
     height: 35px;
     display: grid;
-    grid-template-columns: 100px 30px auto 30px;
+    grid-template-columns: 100px 40px auto 40px;
   }
 
   .person-bar-label{
-    padding: 5px 5px 5px 5px;
+    padding-top:5px;
   }
   
   .person-bar-button{
-    width: 100%;
+    width: 35px;
     height: 100%;
     padding: 0px 0px 0px 0px;
     font-size: 20px;
@@ -150,19 +189,21 @@
   }
   .person-bar-button:hover{
     background-color: rgb(60,140,60);
-    border-style:#aaa;
+    border-color:#aaa;
   }
   .person-bar-button:active{
     background-color: #8CdF8c;
   }
 
-  #plus-person{
-    float:right;
-    margin-left:auto;
+  #plus-person-button{
+    background-image: url("https://disk.yandex.ru/i/psrXPP6jRUsH5w") ;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    margin-left:5px;
   }
-  #minus-person{
-    float: left;
-    margin-right:auto;
+  #minus-person-button{
+    
   }
 
   #person-bar{
@@ -172,8 +213,6 @@
     border-radius:10px;
     overflow:auto;
   }
-  #person-number{
-  }
 
   #person-number-cell{
     padding-left:15px;
@@ -182,45 +221,43 @@
   #calculate-button {
     width: 100%;
     padding: 0px 0px 0px 0px;
+    margin-top: 20px;
+    margin-bottom:5px;
     height: 30px;
     font-size: 20px;
     border-radius: 10px;
     background-color: #4CAF50;
-    border-color: #888;
+    border-color: #ddd;
   }
   #calculate-button:hover{
     background-color: rgb(60,140,60);
-    border-style:#aaa;
+    border-color:#aaa;
   }
   #calculate-button:active{
     background-color: #8CdF8c;
   }
   
-  #error {
-    color: red;
+  .green-message {
+    color: #00BCD4;
   }
-  
-  .red_asterisk{
-    color: red;
+
+  .hint-message {
+    color: #FF9800;
   }
 
   .container{
-    width : 500px;
+    width: 480px;
     height : 200px;
     position : relative;
     display :grid;
-    padding:0px 5px 5px 5px;
-    grid-template-columns: 200px 300px;
+    padding:0px 5px 20px 30px;
+    grid-template-columns: 25fr 28fr;
     visibility: hidden;
   }
+
   #chart_stats{
-    width : 500px;
     height : 200px;
-    position : relative;
     display :grid;
-    padding:5px;
-    grid-template-columns: 200px 300px;
-    visibility: hidden;
   }
   .chart_col{
     padding:0px;
@@ -230,17 +267,253 @@
   .chart_col canvas{
     padding:0px;
   }
+  .stats-table{
+    width:480px;
+    border-collapse: collapse;
+  }
+  .stats-table tr{
+    border-bottom: thin solid black;
+  }
+  .stats-table tr:last-child{
+    border-bottom: 0 none transparent;
+  }
+  .stats-table tr.row-no-border{
+    border-bottom: 0 none transparent;
+  }
+  .row-border{
+    border-bottom: thin solid black;
+  }
   .stats_col{
     display: grid;
     grid-template-rows : 3fr 40px 40px 40px 7fr;
   }
-  .stats_row{
+  tr.stats_row{
     display:table-row;
     text-align: left;
   }
+ 
   .stats_row svg{
     vertical-align: middle;
     width:30px;
     height:30px;
     padding:5px;
   }
+
+.tooltip {
+    margin-top: 20px;
+    margin-bottom: 20px;
+    margin-left:20px;
+    padding-top:0px;
+    padding-bottom: 0px;
+    height:auto;
+    background-color: #f9f9f9;
+    box-shadow: 0 0 10px rgba(0,0,0,0.2);
+    width: 480px;
+    border-radius: 5px;
+    transition-duration: 0.5s;
+}
+.tooltip h2{
+  text-align: center;
+  font-size: 16px;
+  padding-left: 20px;
+  padding-right: 20px;
+}
+.tooltip-header {
+    padding: 5px;
+    background-color: #009688;
+    color: white;
+    border-radius:5px;
+}
+
+details[open] > .tooltip-header{
+  padding: 5px;
+  background-color: #009688;
+  color: white;
+  border-bottom-left-radius: 0px;
+  border-bottom-right-radius: 0px;
+  box-sizing: border-box;
+}
+
+svg{
+  transition-duration: 0.5s;
+}
+
+.tooltip-header:hover{
+  background-color: #33a698;
+}
+details[open] > .tooltip-header:hover{
+  padding: 5px;
+  background-color: #33a698;
+  color: white;
+  border-bottom-left-radius: 0px;
+  border-bottom-right-radius: 0px;
+  box-sizing: border-box;
+}
+p{
+  hyphens: auto;
+}
+
+.tooltip-body {
+    padding: 0px 0px 0px 0px;
+    background-color: #f9f9f9;
+}
+.tooltip-body-content{
+  padding: 0px 20px 10px 20px;
+}
+
+.reference-table{
+  margin:0px auto 5px auto;
+  padding:5px 5px 5px 5px;
+  width:430px;
+  border-collapse: collapse;
+}
+.reference-table th{
+  text-align: center;
+}
+
+.reference-table td{
+  text-align: left;
+  border-color: black;
+  border-width: 1px;
+  border-style: solid;
+}
+.reference-table tr td:last-child{
+  text-indent: 30%;
+}
+
+.ref-first-col{
+  width:70%;
+}
+
+.ref-second-col{
+  width:30%;
+}
+
+a {
+  color: #546DcE;
+  text-decoration: none;
+  transition-duration: 0.1s;
+}
+
+a:hover {
+  color: #03A9FF;
+}
+
+a:active{
+  color: #00BCD4;
+}
+
+.expanded-image{
+  width:aut;
+  position: fixed;
+  top:5%;
+  left:5%;
+  display: block;
+  box-shadow: 0 0 100px rgba(0,0,0,0.8);
+  cursor: pointer;
+}
+
+
+.tooltip-body ol{
+  text-indent: 0px;
+  padding-inline-start: 20px;
+  padding-inline-end: 5px;
+}
+
+.tooltip-body ol li{
+  padding-bottom: 7px;
+}
+
+#max-consumption{
+  font-weight: bold;
+}
+
+.export-icon:hover{
+  animation-name: shake;
+  animation-duration: 0.5s;
+  animation-iteration-count: infinite;
+  animation-timing-function: linear;
+}
+
+.export-section{
+  width:100%;
+  padding-top:0px;
+  display: grid;
+  grid-template-columns: 33% 33% 33%;
+}
+
+#export-results-section{
+  visibility: hidden;
+}
+
+.share-icon{
+  width:24px;
+  height: 24px;
+  padding: 0;
+  margin: 0;
+}
+.share-btn{
+  width:24px;
+  height: 24px;
+  padding: 0;
+  background: transparent;
+  box-shadow: none;
+}
+.share-btn:hover{
+  background: none;
+  animation-name: shake;
+  animation-duration: 0.5s;
+  animation-iteration-count: infinite;
+  animation-timing-function: linear;
+}
+
+.export-button {
+  width: 30px;
+  padding: 0px 0px 0px 0px;
+  float: right;
+  margin-right:20px;
+  margin-top:0px;
+  height: 30px;
+  font-size: 14px;
+  border-radius: 4px;
+  background-color: transparent;
+  box-shadow: none;
+  border:none;
+  display:block;
+}
+
+.export-button:hover{
+  background-color: transparent;
+}
+
+.export-button:active{
+  width:35px;
+  height:35px;
+  background-color: #8CdF8c;
+}
+
+@keyframes shake{
+  from{
+    transform: rotate(0deg);
+  }
+  25%{
+    transform: rotate(-10deg);
+  }
+  50%{
+    transform: rotate(0deg);
+  }
+  75%{
+    transform: rotate(10deg);
+  }
+  to{
+    transform: rotate(0deg);
+  }
+}
+
+footer{
+  margin: 10px auto 0px auto;
+  padding:0px 0px 15px 0px;
+  height:fit-content;
+  font-size: 12px;
+  text-align: center;
+}

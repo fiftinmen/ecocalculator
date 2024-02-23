@@ -25,15 +25,17 @@ function circle(cx, cy, r, fillColor, strokeColor,strokeWidth){
 
 function homunculus(personNumber){
     let svg = document.createElementNS("http://www.w3.org/2000/svg", "svg");
-    svg.setAttribute("viewBox", "0 0 24 24");
+    let color = '#3a3';
+    let strokeWidth = 1.7;
+    svg.setAttribute("viewBox", "0 -5 24 24");
     svg.setAttribute("width", "25");
     svg.setAttribute("height", "25");
     svg.setAttribute("person-number", personNumber);
-    svg.appendChild(circle(12, 6, 4, "#7b7", "#5a5", 1));
-    svg.appendChild(line(12, 10, 12, 16, "#5a5", 1));
-    svg.appendChild(line(8, 12, 16, 12, "#5a5", 1));
-    svg.appendChild(line(12, 16, 8, 20, "#5a5", 1));
-    svg.appendChild(line(12, 16, 16, 20, "#5a5", 1));
+    svg.appendChild(circle(12, 6, 4, color, color, strokeWidth));
+    svg.appendChild(line(12, 10, 12, 16, color, strokeWidth));
+    svg.appendChild(line(8, 12, 16, 12, color, strokeWidth));
+    svg.appendChild(line(12, 16, 8, 20, color, strokeWidth));
+    svg.appendChild(line(12, 16, 16, 20, color, strokeWidth));
     return svg;
 }
 
@@ -56,15 +58,12 @@ function drawchart(canvas, data, colors , width, height)
     canvas.getContext("2d").scale(ratio, ratio);
     ctx = canvas.getContext('2d');
     ctx.clearRect(0, 0, canvas.width, canvas.height);
-    //ctx.fillStyle = 'black';
-    //ctx.fillRect(0, 0, canvas.width, canvas.height);
     let total = data.reduce (sum);
     let explodeOffset = 10;
     let radius = Math.min(width, height) / 2 - explodeOffset*2;
     let centerX = radius + explodeOffset*2;
     let centerY = radius +explodeOffset*2;
     let startAngle = -Math.PI / 2;
-    ctx.font = "20px serif"; 
     for (let i = 0; i < data.length; i++) {
         if (data[i]>0)
         {
@@ -83,25 +82,7 @@ function drawchart(canvas, data, colors , width, height)
             ctx.fill();
 
             startAngle = endAngle;
-
-            /* add legend
-            x = radius * 2 + explodeOffset*5;
-            y = 30 + i*50;
-            rect_width = 20;
-            rect_height = 20;
-            ctx.fillStyle = colors[i];
-            ctx.fillRect(x, y, rect_width, rect_height);
-            ctx.rect(x,y,rect_width, rect_height);
-            
-            ctx.fillStyle = 'black';
-            percent_of_item = (share_of_item*100).toLocaleString('en-EN',{minimumFractionDigits:0, maximumFractionDigits:2});
-
-            ctx.fillText(labels[i]+" - " + percent_of_item + "%", x + rect_width*1.3, y+rect_height*0.8); */
         }
-    }
-
-    
+    }    
     canvas.style.display = "inline-flex";
-    
-
 }
