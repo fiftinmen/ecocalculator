@@ -1,22 +1,36 @@
   // Эта палитра создает баланс между природными тонами и технологическими акцентами, подчеркивая экологическую направленность сайта и его ориентацию на использование ИИ для решения экологических задач.
 
 function expandImage(img){
-  clientWidth = document.documentElement.clientWidth*0.9;
-  clienHeight = document.documentElement.clientHeight*0.9;
-  imgWidth = img.naturalWidth;
-  imgHeight = img.naturalHeight;
-  width = Math.min(clientWidth, imgWidth);
-  height = imgHeight * (width/imgWidth);
-
-
-  let expandedImage = new Image(width, height);
-  expandedImage.className = 'expanded-image';
-  expandedImage.src = img.src;
-  console.log(expandedImage);
-  document.body.appendChild(expandedImage);
-  expandedImage.addEventListener('click', (e) => {
-    document.body.removeChild(expandedImage);
-  })
+  expanded = img.getAttribute('expanded');
+  if (expanded == 'false'){
+      img.setAttribute('expanded', true);
+      clientWidth = document.documentElement.clientWidth*0.9;
+      clienHeight = document.documentElement.clientHeight*0.9;
+      let expandedImage = new Image();
+      /*if (clientWidth>clienHeight){
+        imgWidth = img.naturalWidth;
+        imgHeight = img.naturalHeight;
+        width = Math.min(clientWidth, imgWidth);
+        height = imgHeight * (width/imgWidth);
+        expandedImage.setAttribute('width',width);
+        expandedImage.setAttribute('height',height);
+      } else {
+        imgWidth = img.naturalHeight;
+        imgHeight = img.naturalWidth;
+        width = Math.min(clientWidth, imgHeight);
+        height = imgHeight * (width/imgWidth);
+        expandedImage.setAttribute('width',width);
+        expandedImage.setAttribute('height',height);
+        expandedImage.style.transform = "rotate(90deg)";
+      }*/
+      expandedImage.className = 'expanded-image';
+      expandedImage.src = img.src;
+      document.body.appendChild(expandedImage);
+      expandedImage.addEventListener('click', (e) => {
+        document.body.removeChild(expandedImage);
+        img.setAttribute('expanded', false);
+    })
+  }
 }
 
   
@@ -285,7 +299,6 @@ function share(button){
   }
    
   // открытие нового окна для шаринга
-  console.log(url_soc);
   if(url_soc){
       
       // размеры окна
@@ -306,7 +319,9 @@ function share(button){
 let personNumber = 1;
 personBar = document.getElementById("person-bar");
 personBar.appendChild(homunculus());
+
 img = document.getElementById('temperature-change-img');
+img.setAttribute('expanded',false);
 img.addEventListener('click', (e) => expandImage(img));
 ogImgUrl = document.getElementById("image").src;
 document.querySelector('meta[property="og:image"]').setAttribute("content", ogImgUrl);

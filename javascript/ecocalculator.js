@@ -82,7 +82,6 @@ const fuelToCO2 ={
 
 function setHeight() {
     document.getElementById("results").height="1000px";
-    console.log('aa');
 }
 
 function calculate() {

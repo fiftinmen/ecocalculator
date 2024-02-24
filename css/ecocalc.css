@@ -1,3 +1,4 @@
+  
   body {
     background:#386E4C;
   }
@@ -403,17 +404,6 @@ a:active{
   color: #00BCD4;
 }
 
-.expanded-image{
-  width:aut;
-  position: fixed;
-  top:5%;
-  left:5%;
-  display: block;
-  box-shadow: 0 0 100px rgba(0,0,0,0.8);
-  cursor: pointer;
-}
-
-
 .tooltip-body ol{
   text-indent: 0px;
   padding-inline-start: 20px;
@@ -517,3 +507,13 @@ footer{
   font-size: 12px;
   text-align: center;
 }
+  .expanded-image{
+    position: fixed;
+    width:90%;
+    height:auto;
+    top:5%;
+    left:5%;
+    display: block;
+    box-shadow: 0 0 100px rgba(0,0,0,0.8);
+    cursor: pointer;
+  }
