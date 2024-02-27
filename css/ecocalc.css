@@ -517,3 +517,15 @@ footer{
     box-shadow: 0 0 100px rgba(0,0,0,0.8);
     cursor: pointer;
   }
+  .about-me{
+    width:100%;
+    display: grid;
+    grid-template-columns: auto 170px 30px auto;
+    margin: 0px auto 0px auto;
+  }
+  .copyright{
+    text-align: right;
+  }
+  .github-icon{
+    text-align: left;
+  }
