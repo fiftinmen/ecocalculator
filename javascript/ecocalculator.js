@@ -150,7 +150,8 @@ function calculate() {
         document.getElementById('thermalEnergy_fraction').innerText = `${thermalEnergy_fraction}% - отопление`;
         document.getElementById('thermalEnergyChartRow').style.display = "table-row"
         maxConsumptionType = 'отопление';
-        maxConsumptionFraction = thermalEnergy_fraction;
+        maxConsumptionFraction = parseFloat(thermalEnergy_fraction);
+        console.log(maxConsumptionFraction)
         } else {
             document.getElementById('thermalEnergy_fraction').innerText = ``;
             document.getElementById('thermalEnergyChartRow').style.display = "none"
@@ -160,12 +161,13 @@ function calculate() {
             let hotWater_fraction = (100*hotWater_toEnergy / energyConsumed).toLocaleString("ru-RU",{minimumFractionDigits:0, maximumFractionDigits:2});;
             document.getElementById('hotwater_fraction').innerText = `${hotWater_fraction}% - горячая вода`;
             document.getElementById('hotWaterChartRow').style.display = "table-row";
-            if (hotWater_fraction > maxConsumptionFraction){
+            console.log(hotWater_fraction > maxConsumptionFraction, hotWater_fraction, maxConsumptionFraction)
+            if (parseFloat(hotWater_fraction) > maxConsumptionFraction){
                 maxConsumptionType = 'горячая вода';
-                maxConsumptionFraction = hotWater_fraction;
+                maxConsumptionFraction = parseFloat(hotWater_fraction);
                 whichRussian = 'которой';
             };
-
+        
         } else {
             document.getElementById('hotwater_fraction').innerText = ``;
             document.getElementById('hotWaterChartRow').style.display = "none"
@@ -176,9 +178,9 @@ function calculate() {
             let electroEnergy_fraction = (100* +electroEnergyConsumed / energyConsumed).toLocaleString("ru-RU",{minimumFractionDigits:0, maximumFractionDigits:2});;
             document.getElementById('electroEnergy_fraction').innerText = `${electroEnergy_fraction}% - электричество`;
             document.getElementById('electroEnergyChartRow').style.display = "table-row"
-            if (electroEnergy_fraction > maxConsumptionFraction){
+            if (parseFloat(electroEnergy_fraction) > maxConsumptionFraction){
                 maxConsumptionType = 'электричество';
-                maxConsumptionFraction = electroEnergy_fraction;
+                maxConsumptionFraction = parseFloat(electroEnergy_fraction);
             }
         } else {
             document.getElementById('electroEnergy_fraction').innerText = ``;
@@ -190,8 +192,8 @@ function calculate() {
             let gasEnergy_fraction = (100* +townGas_toEnergy / energyConsumed).toLocaleString("ru-RU",{minimumFractionDigits:0, maximumFractionDigits:2});
             document.getElementById('gasEnergy_fraction').innerText = `${gasEnergy_fraction}% - бытовой газ`;
             document.getElementById('gasEnergyChartRow').style.display = "table-row";
-            if (gasEnergy_fraction > maxConsumptionFraction) {
-                maxConsumptionFraction = gasEnergy_fraction;
+            if (parseFloat(gasEnergy_fraction) > maxConsumptionFraction) {
+                maxConsumptionFraction = parseFloat(gasEnergy_fraction);
                 maxConsumptionType = 'бытовой газ';
             }
         } else {
